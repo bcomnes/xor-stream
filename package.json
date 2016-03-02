@@ -1,0 +1,27 @@
+{
+  "name": "xor-stream",
+  "version": "1.0.0",
+  "description": "Take two readable streams and return a readable stream with the xor of the two input chunks",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcomnes/xor-stream.git"
+  },
+  "keywords": [
+    "xor",
+    "stream",
+    "parity"
+  ],
+  "author": "Bret Comnes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bcomnes/xor-stream/issues"
+  },
+  "homepage": "https://github.com/bcomnes/xor-stream#readme",
+  "devDependencies": {
+    "tape": "^4.4.0"
+  }
+}
