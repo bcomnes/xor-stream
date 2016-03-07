@@ -22,6 +22,10 @@
   },
   "homepage": "https://github.com/bcomnes/xor-stream#readme",
   "devDependencies": {
+    "from2-string": "^1.1.0",
+    "pump": "^1.0.1",
+    "standard": "^6.0.7",
+    "standard-format": "^2.1.1",
     "tape": "^4.4.0"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 var from2 = require('from2')
 var iterate = require('stream-iterate')
 
-function xor(streamA, streamB) {
+function xor (streamA, streamB) {
   var readA = iterate(streamA)
   var readB = iterate(streamB)
 
@@ -15,13 +15,38 @@ function xor(streamA, streamB) {
 
         if (!dataA && !dataB) return cb(null, null)
 
+        // data (xor) 0 === data
 
-        var bufLen = dataA && data.len
-        var xorBuf = new Buffer
-      }
-    }
+        if (!dataA) {
+          nextB()
+          return cb(null, dataB)
+        }
 
+        if (!dataB) {
+          nextA()
+          return cb(null, dataA)
+        }
+
+        var length = dataA.length > dataB.length ? dataA : dataB
+        var xorBuf = new Buffer(length)
+
+        for (var i = 0; i < length; i++) {
+          xorBuf[i] = (dataA || 0) ^ (dataB || 0)
+        }
+
+        nextA()
+        nextB()
+        cb(null, xorBuf)
+      })
+    })
   }
+
+  stream.on('close', function () {
+    if (streamA.destroy) streamA.destroy()
+    if (streamB.destroy) streamB.destroy()
+  })
+
+  return stream
 }
 
-module.exports = union
+module.exports = xor
