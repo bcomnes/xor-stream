@@ -14,18 +14,6 @@ var streamBCtor = fsStreamCtor(pathB)
 
 var aXorBCtor = xorStreamCtor(streamACtor, streamBCtor)
 
-function fsStreamCtor (path) {
-  return function () {
-    return fs.createReadStream(path)
-  }
-}
-
-function xorStreamCtor (streamACtor, streamBCtor) {
-  return function () {
-    return xorStream(streamACtor(), streamBCtor())
-  }
-}
-
 test('compare longer file to shorter file', function (t) {
   // this fails right now
   t.plan(2)
@@ -63,3 +51,15 @@ test('compare stings', function (t) {
     t.ok(equal, 'equal pairity output')
   })
 })
+
+function fsStreamCtor (path) {
+  return function () {
+    return fs.createReadStream(path)
+  }
+}
+
+function xorStreamCtor (streamACtor, streamBCtor) {
+  return function () {
+    return xorStream(streamACtor(), streamBCtor())
+  }
+}
