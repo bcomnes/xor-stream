@@ -15,23 +15,24 @@ function xor (streamA, streamB) {
 
         if (!dataA && !dataB) return cb(null, null)
 
-        // data (xor) 0 === data
-
+        // dataA exausted
         if (!dataA) {
           nextB()
           return cb(null, dataB)
         }
 
+        // dataB exausted
         if (!dataB) {
           nextA()
           return cb(null, dataA)
         }
 
-        var length = dataA.length > dataB.length ? dataA : dataB
+        var length = dataA.length > dataB.length ? dataA.length : dataB.length
+
         var xorBuf = new Buffer(length)
 
         for (var i = 0; i < length; i++) {
-          xorBuf[i] = (dataA || 0) ^ (dataB || 0)
+          xorBuf[i] = (dataA[i] || 0) ^ (dataB[i] || 0)
         }
 
         nextA()

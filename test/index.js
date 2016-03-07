@@ -1,44 +1,65 @@
 var test = require('tape')
 var xorStream = require('../index')
-var fromString = require('from2-string')
-var path = require('path')
-var pump = require('pump')
 var fs = require('fs')
+var path = require('path')
+var streamEqual = require('stream-equal')
+var fromString = require('from2-string')
+var crypto = require('crypto')
 
-var filePathA = path.resolve('./data/cat1.jpg')
-var filePathB = path.resolve('./data/cat2.jpg')
+var pathA = path.resolve(path.join(__dirname, 'data', 'cat1.jpg'))
+var pathB = path.resolve(path.join(__dirname, 'data', 'cat2.jpg'))
 
-test('compare strings', function (t) {
-  var stringLength = 36
-  var streamA = fromStrCtor(stringLength)
-  var streamB = fromStrCtor(stringLength)
+var streamACtor = fsStreamCtor(pathA)
+var streamBCtor = fsStreamCtor(pathB)
 
-  console.log(streamA.string.length)
-  console.log(streamB.string.length)
+var aXorBCtor = xorStreamCtor(streamACtor, streamBCtor)
 
-  var aXorB = xorStream(streamA(), streamB())
+function fsStreamCtor (path) {
+  return function () {
+    return fs.createReadStream(path)
+  }
+}
 
-  aXorB.pipe(process.stdout)
+function xorStreamCtor (streamACtor, streamBCtor) {
+  return function () {
+    return xorStream(streamACtor(), streamBCtor())
+  }
+}
 
-  pump(aXorB, process.stdout, function (err) {
-    console.log('pipe finished')
-    t.error(err)
-    t.end()
+test('compare longer file to shorter file', function (t) {
+  // this fails right now
+  t.plan(2)
+
+  var xorB = xorStream(aXorBCtor(), streamBCtor())
+
+  streamEqual(streamACtor(), xorB, function (err, equal) {
+    t.error(err, 'streams compared without error')
+    t.ok(equal, 'equal pairity output')
   })
 })
 
-function generateString (length) {
-  return Math.random().toString(length).slice(2)
-}
+test.skip('compare shorter file to longer file', function (t) {
+  t.plan(2)
 
-function fromStrCtor (length) {
-  var string = generateString(length)
+  var xorA = xorStream(aXorBCtor(), streamACtor())
 
-  function getStream () {
-    return fromString(string)
-  }
+  streamEqual(streamBCtor(), xorA, function (err, equal) {
+    t.error(err, 'streams compared without error')
+    t.ok(equal, 'equal pairity output')
+  })
+})
 
-  getStream.string = string
+test('compare stings', function (t) {
+  t.plan(2)
 
-  return getStream
-}
+  var strA = crypto.randomBytes(1000).toString('hex')
+  var strB = crypto.randomBytes(1000).toString('hex')
+
+  var strXor = xorStream(fromString(strA), fromString(strB))
+  var strXorA = xorStream(strXor, fromString(strA))
+
+  streamEqual(fromString(strB), strXorA, function (err, equal) {
+    t.error(err, 'streams compared without error')
+    t.ok(equal, 'equal pairity output')
+  })
+})

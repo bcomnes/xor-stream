@@ -4,7 +4,7 @@
   "description": "Take two readable streams and return a readable stream with the xor of the two input chunks",
   "main": "index.js",
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "pump": "^1.0.1",
     "standard": "^6.0.7",
     "standard-format": "^2.1.1",
+    "stream-equal": "^0.1.8",
     "tape": "^4.4.0"
   },
   "dependencies": {
