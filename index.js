@@ -1,7 +1,7 @@
 var from2 = require('from2')
 var iterate = require('stream-iterate')
 
-function xor (streamA, streamB) {
+function xorStream (streamA, streamB) {
   var readA = iterate(streamA)
   var readB = iterate(streamB)
 
@@ -17,23 +17,16 @@ function xor (streamA, streamB) {
 
         // dataA exausted
         if (!dataA) {
-          nextB()
-          return cb(null, dataB)
+          dataA = new Buffer(dataB.length)
+          dataA.fill(0)
         }
 
-        // dataB exausted
         if (!dataB) {
-          nextA()
-          return cb(null, dataA)
+          dataB = new Buffer(dataA.length)
+          dataB.fill(0)
         }
 
-        var length = dataA.length > dataB.length ? dataA.length : dataB.length
-
-        var xorBuf = new Buffer(length)
-
-        for (var i = 0; i < length; i++) {
-          xorBuf[i] = (dataA[i] || 0) ^ (dataB[i] || 0)
-        }
+        var xorBuf = xor(dataA, dataB)
 
         nextA()
         nextB()
@@ -50,4 +43,15 @@ function xor (streamA, streamB) {
   return stream
 }
 
-module.exports = xor
+function xor (bufA, bufB) {
+  var length = bufA.length > bufB.length ? bufA.length : bufB.length
+  var pairity = new Buffer(length)
+
+  for (var i = 0; i < length; i++) {
+    pairity[i] = (bufA[i] || 0) ^ (bufB[i] || 0)
+  }
+
+  return pairity
+}
+
+module.exports = xorStream
