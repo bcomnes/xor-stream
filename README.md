@@ -16,8 +16,8 @@ var xorStream = require('xor-stream')
 var streamEqual = require('stream-equal')
 var rs = require('fs').createReadStream
 
-var pairty = xorStream(rs('pathA'), rs('pathB'))
-var contentOfA = xorStream(pairty, rs('pathB'))
+var pairity = xorStream(rs('pathA'), rs('pathB'))
+var contentOfA = xorStream(pairity, rs('pathB'))
 
 streamEqual(rs('pathA'), contentOfA, function (err, equal) {
   console.log(equal) // true if file A is larger than File B
