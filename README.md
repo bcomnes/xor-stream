@@ -1,5 +1,5 @@
 # xor-stream
-Take two readable streams and return a readable stream that contains chunkB XOR chunkB
+Take two readable streams and return a readable stream that contains chunkA XOR chunkB
 
 ```
 npm install xor-stream
