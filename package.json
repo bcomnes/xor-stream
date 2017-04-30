@@ -24,9 +24,9 @@
   "devDependencies": {
     "from2-string": "^1.1.0",
     "pump": "^1.0.1",
-    "standard": "^6.0.7",
+    "standard": "^10.0.2",
     "standard-format": "^2.1.1",
-    "stream-equal": "^0.1.8",
+    "stream-equal": "^1.0.0",
     "tape": "^4.4.0"
   },
   "dependencies": {
