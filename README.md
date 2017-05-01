@@ -1,6 +1,5 @@
 # xor-stream
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/bcomnes/xor-stream.svg)](https://greenkeeper.io/)
 Take two readable streams and return a readable stream that contains chunkA XOR chunkB
 
 ```
