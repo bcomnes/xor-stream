@@ -29,7 +29,7 @@ function xor (streamA, streamB) {
 
         var length = dataA.length > dataB.length ? dataA.length : dataB.length
 
-        var xorBuf = new Buffer(length)
+        var xorBuf = Buffer.alloc(length)
 
         for (var i = 0; i < length; i++) {
           xorBuf[i] = (dataA[i] || 0) ^ (dataB[i] || 0)
