@@ -27,7 +27,7 @@
     "standard": "^14.0.0",
     "standard-format": "^2.1.1",
     "stream-equal": "^1.0.0",
-    "tape": "^4.4.0"
+    "tape": "^5.0.1"
   },
   "dependencies": {
     "from2": "^2.1.1",
