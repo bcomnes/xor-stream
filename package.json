@@ -26,7 +26,7 @@
     "pump": "^3.0.0",
     "standard": "^14.0.0",
     "standard-format": "^2.1.1",
-    "stream-equal": "^1.0.0",
+    "stream-equal": "^2.0.0",
     "tape": "^4.4.0"
   },
   "dependencies": {
